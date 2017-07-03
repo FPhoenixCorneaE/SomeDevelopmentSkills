@@ -1,0 +1,29 @@
+Android MVP模式：
+
+	MVP是从经典的MVC模式演变而来，它们的基本思想有相通的地方：Controller/Presenter负责逻辑的处理，Model提供数据，View负责显示。
+
+
+
+区别：
+
+    MVC短板：
+
+	在开发中，activity充当Controller角色，但在实际开发中处理View的逻辑和角色，一旦业务界面复杂，activity会显得很庞大。
+
+
+    两者重大区别：
+
+	MVP所有交互都发生在Presenter内部，而MVC，Model不依赖于View，但View依赖于Model，会直接从Model中读取数据而不是通过Controller。
+
+
+
+MVP模式结构：
+
+    Model：业务逻辑和实体模型。
+
+    View：用户交互和视图显示，对应activity。
+
+    Presenter：负责完成View与Model间的逻辑和交互。
+
+
+    MVP模式相当于在MVC模式中又加了一个Presenter用于处理模型和逻辑，将View和Model完全独立开，在android开发的体现就是activity仅用于显示界面和交互，activity不参与模型结构和逻辑。
