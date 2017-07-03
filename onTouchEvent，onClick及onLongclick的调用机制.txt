@@ -1,0 +1,9 @@
+onTouchEvent，onClick及onLongclick的调用机制：
+
+
+	ACTION_DOWN --> OnLongClick --> ACTION_UP -->OnClick.
+
+
+在onLongclick（）方法return false的情况下，在ACTION后仍然出发onClick（）方法。
+
+	     
