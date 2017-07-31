@@ -1,0 +1,59 @@
+Activity一共有4中LaunchMode（启动模式）：
+
+
+	1.standard
+	
+	2.singleTop
+	
+	3.singleTask
+	
+	4.singleInstance
+	
+	
+我们可以在AndroidManifest.xml配置<activity>的Android:launchMode属性为以上四种之一即可。
+
+
+
+
+一：standard
+
+	standard模式是默认的启动模式，不用为<activity>配置android:launchMode属性即可，当然也可以指定值为standard。
+	
+	
+	standard模式的原理：
+	
+		每次跳转系统，不管有没有已存在的实例，都会在task中生成一个新的Activity实例，并且放于栈结构的顶部。
+	
+	
+二：singleTop
+
+	为<activity>指定属性android:launchMode="singleTop"，系统就会按照singleTop启动模式处理跳转行为。
+	
+	
+	singleTop模式的原理：
+	
+		跳转时系统会先在栈结构中寻找是否有一个Activity实例正位于栈顶，如果有则不再生成新的，而是直接使用。
+		
+		如果有Activity实例但不是位于栈顶，则重新生成一个实例。
+		
+
+三：singleTask
+
+	为<activity>指定属性android:launchMode="singleTask"，系统就会按照singleTask启动模式处理跳转行为。
+	
+	
+	singleTask模式的原理：
+	
+		如果发现有对应的Activity实例，则使此Activity实例之上的其他Activity实例统统出栈，使此Activity实例成为栈顶对象，显示到幕前。
+		
+		
+四：singleInstance
+
+	为<activity>指定属性android:launchMode="singleInstance"，系统就会按照singleInstance启动模式处理跳转行为。
+	
+	
+	singleInstance模式的原理：
+		
+		singleInstance启动模式可能是最复杂的一种模式，这种启动模式比较特殊，因为它会启用一个新的栈结构，将Acitvity放置于这个新的栈结构中，
+		
+		并保证不再有其他Activity实例进入。
