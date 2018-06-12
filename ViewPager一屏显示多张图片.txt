@@ -1,0 +1,28 @@
+
+
+ViewPager一屏显示多张图片的步骤:
+        1.配置ViewPager和其父布局的 android:clipChildren属性为”false”.
+            (android:clipChildren表示是否限制子View在其范围内，默认为true. 代码设置setClipChildren(false))
+            因为如果clipChildren属性设置为true,就表明我们要将children给clip掉，
+            就是说对于子元素来说，超出当前view的部分都会被切掉，那我们在这里把它设置成false，
+            就表明超出view的部分，不要切掉，依然显示。
+
+        2.设置ViewPager的父布局,android:layerType="software",这样才能显示左右两边的图片,否则不显示为空白
+
+        3.设置幕后item的缓存数目。如果一屏展示的pager数目多的话就需要设置此项。
+            viewPager.setOffscreenPageLimit(3); //具体缓存页数看需求
+
+        4.设置页与页之间的间距
+            viewPager.setPageMargin(int marginPixls);// setPageMargin表示设置page之间的间距
+			
+		5.设置居中显示的pager距离屏幕左右两边的距离
+			android:layout_marginLeft="50dp"
+			android:layout_marginRight="50dp"
+
+        6.将ViewPager的父布局触摸事件分发给viewpager，否则只能滑动ViewPager中间的那个view对象
+
+        7.必须在ViewPager的滑动监听中刷新界面才能看到效果
+		
+		
+		
+	链接：https://www.cnblogs.com/tangs/articles/5933233.html

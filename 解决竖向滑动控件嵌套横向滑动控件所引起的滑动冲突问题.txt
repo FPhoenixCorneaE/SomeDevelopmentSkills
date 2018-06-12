@@ -1,0 +1,38 @@
+
+
+解决方案：
+
+	重写竖向滑动控件的onInterceptTouchEvent()；
+	
+	
+	
+代码如下：
+
+
+	private float startX;
+    private float startY;
+    private float mTouchSlop = 10;
+
+    @Override
+    public boolean onInterceptTouchEvent(MotionEvent ev) {
+        int action = ev.getAction();
+        switch (action) {
+            case MotionEvent.ACTION_DOWN:
+                startY = ev.getY();
+                startX = ev.getX();
+                break;
+            case MotionEvent.ACTION_MOVE:
+                float endY = ev.getY();
+                float endX = ev.getX();
+                float distanceX = Math.abs(endX - startX);
+                float distanceY = Math.abs(endY - startY);
+                if (distanceX > mTouchSlop && distanceX > distanceY) {
+                    return false;
+                }
+                break;
+            case MotionEvent.ACTION_UP:
+            case MotionEvent.ACTION_CANCEL:
+                break;
+        }
+        return super.onInterceptTouchEvent(ev);
+    }

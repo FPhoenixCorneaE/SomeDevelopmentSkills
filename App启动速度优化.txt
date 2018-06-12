@@ -1,0 +1,136 @@
+
+
+	1.定义
+
+		冷启动：当启动应用时，后台没有该应用的进程，这时系统会重新创建一个新的进程分配给该应用，这个启动方式就是冷启动。
+
+		热启动：当启动应用时，后台已有该应用的进程（例：按back键、home键，应用虽然会退出，但是该应用的进程是依然会保留在后台，
+				可进入任务列表查看），所以在已有进程的情况下，这种启动会从已有的进程中来启动应用，这个方式叫热启动。
+				
+
+				
+	因此，冷启动时，先执行Application中的代码，再启动Activity。而热启动，不执行Application的代码，直接启动Activity。
+	
+	理解了冷启动跟热启动后，就可以知道我们要优化的目标了，一个是Application，一个是SplashActivity，一个是MainActivity。
+	
+	
+	2.方法论
+
+		1）埋点先行，有对比就有差距。
+		
+			App启动开始时间可以在Application的attachBaseContext方法开始计时。主页面展示的结束时间是在view的第一次调用onDraw()方法，作为主页面的展示时机。
+			
+			getWindow().getDecorView().getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
+				@Override
+				public boolean onPreDraw() {
+					getWindow().getDecorView().getViewTreeObserver().removeOnPreDrawListener(this);
+					// do log
+					return true;
+				}
+			});
+			
+		2）插件化解决多dex问题。
+		
+			出现原因：当App中的方法数超过了65536后，就会出现编译不通过。原因是打包流程代码里面，Class：MemberIdsSection有这么一段代码。
+			
+			解决方案：①官方给出的解决方案是使用MultDex解决。在Application的attachBaseContext中添加代码。可是有一个问题，MultDex.install()这句代码，
+			在Android5.0以下手机中执行非常地慢，性能比较差的机子有时候时间多达10s。这是绝对不能忍受的。
+			②使用插件化解决多dex问题。目前来讲最好的解决方案。Android5.0以下的手机也能流畅运行。
+
+		3）UI加载延迟化。
+		
+			主界面太复杂了，可以减少一些界面绘制，等到界面展示出来，再进行绘制其他UI。这样看起来启动速度就快多了。
+			
+		4）耗时非UI操作异步化。
+		
+			在UI线程执行超过5S的任务，那么就会导致ANR。新手常犯的错误有在UI线程执行文件操作、调用耗时API(如ActivityManager获取应用信息等)、反射、网络操作等等。
+			
+		5）减少Activity跳转层级。 
+		
+			常见的启动流程是这样的，Application->SplashActivity->MainActivity。
+
+			糟糕一点的启动流程是这样的。Application->MainActivity->SplashActivity->MainActivity。
+
+			经过优化后的启动流程可以是Application->MainActivity。SplashActivity用SplashView替代。
+			
+		6）布局优化。
+		
+			布局优化常用的工具有HierarchyViewer，能够可视化的角度直观地获得UI布局设计结构和各种属性的信息。帮助我们优化布局。
+			
+			布局时要准守下面的一些规则：
+
+				①尽量多使用RelativeLayout、LinearLayout，不要使用绝对布局AbsoluteLayout；
+				②将可复用的组件抽取出来并通过< include />标签使用；
+				③使用< ViewStub />标签来加载一些不常用的布局；
+				④使用< merge />标签减少布局的嵌套层次；
+				
+		7）数据监控。性能优化是一件长期的任务。
+		
+			①发版前的数据监控
+			
+				其实也就是在启动流程的关键方法上面添加时间日志。这里要注意下，就是每次发版前用相同的手机记录下启动流程的各个方法的运行时间。
+				保持单一变量，这样子哪个方法的耗时明显增加了，那么就可以看出来。但其实你会发现这样添加时间统计会导致代码很难看。所以，
+				还是用AspectJ切面编程框架来实现耗时统计。真正做到代码无耦合。
+			②发版后的数据监控
+			
+				将收上面的埋点数据做成每日报表，每天观察数据。在大量数据支撑下，平均值会趋于稳定。如果发版后，这个平均值明显上涨，
+				那么就是本次发版代码有问题。这时候回到第1点。进行代码排查。
+				
+		8）终极优化
+		
+			最后一步只是理想状态，要做到这点非常困难。就是在启动流程中，始终保持单线程执行。保持CPU始终执行UI线程，不调度到其他线程去。
+
+			基本上做不到，但要朝着这个方向前进。
+			
+			
+	参考：App优化之启动速度优化https://zhuanlan.zhihu.com/p/24867509
+			
+	
+	
+	3.主题化的启动屏幕
+	
+		通过主题化app的启动屏幕来改善启动体验。这样整个app的启动和接下来的操作会显得更加连贯。但这样只是将Activity的慢启动问题隐藏了。
+		
+		使用Activity的windowBackground主题属性来为启动的Activity提供一个简单的drawable。
+		
+		drawable布局文件layerlist_splash：
+		
+			<?xml version="1.0" encoding="utf-8"?>
+			<layer-list xmlns:android="http://schemas.android.com/apk/res/android"
+						android:opacity="translucent">
+
+				<item>
+
+					<bitmap android:src="@mipmap/pic_splash" />
+
+				</item>
+
+			</layer-list>
+			
+			
+		Manifest file:
+		
+			<activity ...
+			android:theme="@style/SplashTheme" />
+			
+		
+		style theme文件SplashTheme：
+		
+			<!--启动页主题-->
+			<style name="SplashTheme" parent="Theme.AppCompat">
+				<item name="windowActionBar">false</item>
+				<item name="windowNoTitle">true</item>
+				<item name="android:windowFullscreen">true</item>
+				<item name="android:windowContentOverlay">@null</item>
+				<item name="android:windowBackground">@drawable/layerlist_splash</item>
+			</style>
+			
+		
+		然后在代码中将主题切换回app的主题，最简单的方式是在super.onCreate() 和setContentView()方法之前调用 setTheme(R.style.AppTheme)
+	
+	
+	
+	
+	
+	
+	

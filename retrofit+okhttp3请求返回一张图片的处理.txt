@@ -1,0 +1,192 @@
+
+
+
+最近做登录，需要用到一张验证码图片，所以请求接口直接返回一张图片。返回类型是文件型。
+
+
+我用的网络框架是retrofit+okhttp3+rxjava+rxandroid。
+
+
+请求接口如下：
+
+
+	Presenter中的方法：
+
+	@Override
+    public void getImageVerifyCode() {
+        subscribe(iModel.getImageVerifyCode(ConvertUtils.dp2px(50f),
+                ConvertUtils.dp2px(20f), 20, 4, new RSCallback<ResponseBody>() {
+                    @Override
+                    public void onSuccess(ResponseBody data) {
+                        if (data != null) {
+                            InputStream inputStream = data.byteStream();//得到图片的流
+                            Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
+                            iView.setImageVerifyCode(bitmap);
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(String msg) {
+
+                    }
+                }));
+    }
+	
+	
+	
+	Presenter父类：
+	
+	/**
+	* 基于Rx的Presenter封装,控制订阅的生命周期在Activity、Fragment的生命周期之内
+	*/
+	public class RxPresenter<V extends BaseView> implements BasePresenter {
+
+    private CompositeSubscription mCompositeSubscription;
+    public V iView;
+
+    public RxPresenter(V view) {
+        iView = view;
+        iView.setPresenter(this);
+    }
+
+    /**
+     * 取消订阅
+     */
+    public void unSubscribe() {
+        iView = null;
+        if (mCompositeSubscription != null) {
+            mCompositeSubscription.unsubscribe();
+        }
+    }
+
+    /**
+     * 添加订阅
+     *
+     * @param subscription 订阅
+     */
+    public void subscribe(Subscription subscription) {
+        if (mCompositeSubscription == null) {
+            mCompositeSubscription = new CompositeSubscription();
+        }
+        mCompositeSubscription.add(subscription);
+    }
+	}
+	
+	
+	
+	Model中的方法：
+	
+	@Override
+    public Subscription getImageVerifyCode(int width, int height, int textSize, int length, final RSCallback<ResponseBody> rsCallback) {
+        return LoginAPI.getDefault().getImageVerifyCode(width, height, textSize, length, new Subscriber<ResponseBody>() {
+            @Override
+            public void onCompleted() {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                LogUtils.e(e);
+                rsCallback.onFailure(e);
+            }
+
+            @Override
+            public void onNext(ResponseBody responseBody) {
+                rsCallback.onSuccess(responseBody);
+            }
+        });
+    }
+	
+	
+	
+	API中的方法：
+	
+	/**
+     * 获取图片验证码
+     *
+     * @param width    图片宽度
+     * @param height   图片高度
+     * @param textSize 验证码字体大小
+     * @param length   验证码长度
+     */
+    @SuppressWarnings("unchecked")
+    public Subscription getImageVerifyCode(int width, int height, int textSize, int length, Subscriber<ResponseBody> subscriber) {
+        Observable observable = RetrofitManager.getRetrofit().create(Login.class).getImageVerifyCode(width, height, textSize, length);
+        return RxUtils.setSubscribe(observable, subscriber);
+    }
+	
+	
+	
+	Retrofit类中的抽象方法：
+	
+	 /**
+     * 获取图片验证码
+     *
+     * @param width    图片宽度
+     * @param height   图片高度
+     * @param textSize 验证码字体大小
+     * @param length   验证码长度
+     */
+    @GET("/Image/gvcode")
+    Observable<ResponseBody> getImageVerifyCode(@Query("w") int width, @Query("h") int height,
+                                                @Query("fsize") int textSize, @Query("length") int length);
+					
+
+					
+	Rx工具类方法：
+	
+	/**
+     * 设置订阅
+     */
+    @SuppressWarnings("unchecked")
+    public static <T> Subscription setSubscribe(Observable<T> observable, Subscriber<? super T> subscriber) {
+        return observable.subscribeOn(Schedulers.io())
+                .unsubscribeOn(Schedulers.io())
+                //回调到主线程
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(subscriber);
+    }
+	
+	
+
+	Callback接口：
+	
+	public abstract class RSCallback<D> {
+
+    public abstract void onSuccess(D data);
+
+    public abstract void onFailure(String msg);
+
+    public void onFailure(Throwable e) {
+        String msg;
+        if (e instanceof HttpException || e instanceof UnknownHostException) {
+            onFailure(msg = ResourceUtils.getString(R.string.warm_prompt_error_server));
+        } else if (!NetworkUtils.isConnected() || e instanceof SocketTimeoutException) {
+            onFailure(msg = ResourceUtils.getString(R.string.warm_prompt_network_error));
+        } else {
+            onFailure(msg = e.getLocalizedMessage());
+        }
+        ToastUtils.showShort(msg);
+        LogUtils.e(msg);
+    }
+	}
+	
+	
+	
+	本来一开始是想直接用Bitmap或者InputStream作为返回值的，但是报了一个异常MalformedJsonException，具体描述是
+	com.google.gson.JsonSyntaxException: com.google.gson.stream.MalformedJsonException: Use JsonReader.setLenient(true) to accept malformed JSON at line 1 column 7 path $
+	
+	在这里https://stackoverflow.com/questions/27485346/malformedjsonexception-with-retrofit-api找到了如下解决方案：
+	
+	Gson gson = new GsonBuilder()
+        .setLenient()
+        .create();
+
+    Retrofit retrofit = new Retrofit.Builder()
+        .baseUrl("http://whatever.com")
+        .addConverterFactory(GsonConverterFactory.create(gson))
+        .build(); 
+		
+	但还是报了如下错误：Failed to invoke public java.io.InputStream() with no args。但是没找到解决方案。
+	
+	后来换了一个思路，将返回值改为Response或者ResponseBody就没问题了。
