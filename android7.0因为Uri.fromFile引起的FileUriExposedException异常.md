@@ -136,3 +136,5 @@ public static void installApk(String path) {
 **Attempt to invoke virtual method 'android.content.res.XmlResourceParser android.content.pm.PackageItemInfo.loadXmlMetaData(android.content.pm.PackageManager, java.lang.String)' on a null object reference**
 
 
+**Android7.0适配：**
+https://blog.csdn.net/Chay_Chan/article/details/57083383
