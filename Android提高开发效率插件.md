@@ -20,13 +20,13 @@
 	 
 	 - ADB Clear App Data and Restart  清除当前app数据并重启app
 
-<br/>
+<br>
 
 **二、Alibaba Java Coding Guidelines**
 
 1. 用途：阿里巴巴推出的一款插件，主要就是规范代码使用。
 
-<br/>
+<br>
 
 **三、Android Code Generator**
 
@@ -55,7 +55,7 @@
 	
 	- 可以在Preferences中编辑生成代码的模版：Activity, Fragment, Adapter, Menu
 
-<br/>
+<br>
 
 **四、GenerateFindViewById**
 
@@ -64,7 +64,7 @@
 2. 快捷键：
 	alt+ctrl+E，或者是alt+insert
 	
-<br/>
+<br>
 
 **五、LayoutFormatter**
 
@@ -73,7 +73,7 @@
 2. 如何使用：
 	在一个layout布局文件中右键，之后选择refactor->reformat layout xml。
 	
-<br/>
+<br>
 
 **六、Material Theme Ui**
 
@@ -84,7 +84,7 @@
 	
 	下载好后，不需要解压，你下载 的是一个jar包，直接使用android studio导入，file->import setting,找到你刚才jar包下载的位置，选择完毕直接导入就OK了。
 	
-<br/>
+<br>
 
 **七、Selector Drawable Generator**
 
@@ -104,7 +104,7 @@
 	| _activated|	state_activated|
 	| _windowfocused|	state_window_focused|
 	
-<br/>
+<br>
 
 **八、Sexy Editor**
 
@@ -113,13 +113,13 @@
 2. 如何使用：
 	Settings->Other Settings->SexyEditor
 	
-<br/>
+<br>
 
 **九、SVG2VectorDrawable**
 
 1. 用途：将svg转化成xml文件。
 
-<br/>
+<br>
 
 **十、GsonFormat**
 
@@ -127,7 +127,7 @@
 
 2. 快捷键：alt+insert
 
-<br/>
+<br>
 
 **十一、Android Studio Prettify**
 
@@ -144,13 +144,13 @@
 
 	- 这个插件还可以自动书写findViewById
 
-<br/>
+<br>
 
 **十二、PermissionsDispatcher plugin**
 
 1. 用途：自动生成6.0权限的代码。
 
-<br/>
+<br>
 
 **十三、Android Parcelable code generator**
 
@@ -158,6 +158,12 @@
 
 2. 快捷键：alt+insert
 
-<br/>
+<br>
 
 **十四、Angular Component Folding**
+
+<br>
+
+**十五、Android Butterknife Zelezny**
+
+<br>
