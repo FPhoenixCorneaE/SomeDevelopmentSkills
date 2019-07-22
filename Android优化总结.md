@@ -276,7 +276,7 @@ class TestResource {
 ```
 - 分析问题:
 
-	-这样就在Activity内部创建了一个非静态内部类的单例，每次启动Activity时都会使用该单例的数据，这样虽然避免了资源的重复创建，不过这种写法却会造成内存泄漏，因为非静态内部类默认会持有外部类的引用，而该非静态内部类又创建了一个静态的实例，该实例的生命周期和应用的一样长，这就导致了该静态实例一直会持有该Activity的引用，导致Activity的内存资源不能正常回收。
+	- 这样就在Activity内部创建了一个非静态内部类的单例，每次启动Activity时都会使用该单例的数据，这样虽然避免了资源的重复创建，不过这种写法却会造成内存泄漏，因为非静态内部类默认会持有外部类的引用，而该非静态内部类又创建了一个静态的实例，该实例的生命周期和应用的一样长，这就导致了该静态实例一直会持有该Activity的引用，导致Activity的内存资源不能正常回收。
 
 - 解决办法:
 
@@ -547,6 +547,7 @@ recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
 });
 ```
 <br>
+
 <a name="8" style="text-decoration:none"><strong><font color=#222222 size=5 face="Consolas">8.加载优化</font></strong></a>
 
 <a name="8.1" style="text-decoration:none"><strong><font color=#222222 size=4 face="微软雅黑">8.1 懒加载优化</font></strong></a>
@@ -554,7 +555,7 @@ recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
 - 该优化在新闻类app中十分常见
 	- ViewPager+Fragment的搭配在日常开发中也比较常见，可用于切换展示不同类别的页面。
 	- 懒加载,其实也就是延迟加载,就是等到该页面的UI展示给用户时,再加载该页面的数据(从网络、数据库等),而不是依靠ViewPager预加载机制提前加载两三个，甚至更多页面的数据。这样可以提高所属Activity的初始化速度,也可以为用户节省流量.而这种懒加载的方式也已经/正在被诸多APP所采用。
-<br>
+
 - 具体看这篇文章
 	- <a target="_blank" href="https://link.juejin.im?target=https%3A%2F%2Fwww.jianshu.com%2Fp%2Fcf1f4104de78" rel="nofollow noopener noreferrer">www.jianshu.com/p/cf1f4104d…</a>
 <br>
