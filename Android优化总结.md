@@ -237,7 +237,7 @@ protected void onDestroy() {
 - 造成内存泄漏原因分析:
 
 	- 通过内部类的方式创建mHandler对象,此时mHandler会隐式地持有一个外部类对象引用这里就是MainActivity，当执行postDelayed方法时，该方法会将你的Handler装入一个Message，并把这条Message推到MessageQueue中，MessageQueue是在一个Looper线程中不断轮询处理消息，那么当这个Activity退出时消息队列中还有未处理的消息或者正在处理消息，而消息队列中的Message持有mHandler实例的引用，mHandler又持有Activity的引用，所以导致该Activity的内存资源无法及时回收，引发内存泄漏。
-<br>
+
 - 解决Handler内存泄露主要有2点:
 
 	- 有延时消息，要在Activity销毁的时候移除Messages监听;
@@ -356,11 +356,11 @@ tv.getViewTreeObserver().addOnWindowFocusChangeListener(),add监听，放到集�
 
 - 减少太多重叠的背景(overdraw)
 	- 这个问题其实最容易解决，建议就是检查你在布局和代码中设置的背景，有些背景是隐藏在底下的，它永远不可能显示出来，这种没必要的背景一定要移除，因为它很可能会严重影响到app的性能。如果采用的是selector的背景，将normal状态的color设置为”@android:color/transparent”,也同样可以解决问题。
-<br>
+
 - 避免复杂的Layout层级
 
 	- 这里的建议比较多一些，首先推荐使用Android提供的布局工具Hierarchy Viewer来检查和优化布局。第一个建议是：如果嵌套的线性布局加深了布局层次，可以使用相对布局来取代。第二个建议是：用标签来合并布局。第三个建议是：用标签来重用布局，抽取通用的布局可以让布局的逻辑更清晰明了。记住，这些建议的最终目的都是使得你的Layout在Hierarchy Viewer里变得宽而浅，而不是窄而深。
-<br>
+
 - 总结：可以考虑多使用merge和include，ViewStub。尽量使布局浅平，根布局尽量少使用RelactivityLayout,因为RelactivityLayout每次需要测量2次。
 <br><br>
 
@@ -375,7 +375,7 @@ tv.getViewTreeObserver().addOnWindowFocusChangeListener(),add监听，放到集�
 
 	- 如何检测哪些图片未被使用?
 		- 点击菜单栏 Analyze -> Run Inspection by Name -> unused resources -> Moudule ‘app’ -> OK，这样会搜出来哪些未被使用到未使用到xml和图片
-<br>
+
 	- 如何检测哪些无效代码?
 		- 使用Android Studio的Lint，步骤：点击菜单栏 Analyze -> Run Inspection by Name -> unused declaration -> Moudule ‘app’ -> OK
 <br>
@@ -387,7 +387,7 @@ tv.getViewTreeObserver().addOnWindowFocusChangeListener(),add监听，放到集�
 	- 当一个方法的返回值是String的时候，通常需要去判断一下这个String的作用是什么，如果明确知道调用方会将返回的String再进行拼接操作的话，可以考虑返回一个StringBuffer对象来代替，因为这样可以将一个对象的引用进行返回，而返回String的话就是创建了一个短生命周期的临时对象。
 	- 尽可能地少创建临时对象，越少的对象意味着越少的GC操作。
 	- onDraw()方法里面不要执行对象的创建。
-<br>
+
 - 静态优于抽象
 	- 如果你并不需要访问一个对系那个中的某些字段，只是想调用它的某些方法来去完成一项通用的功能，那么可以将这个方法设置成静态方法，调用速度提升15%-20%，同时也不用为了调用这个方法去专门创建对象了，也不用担心调用这个方法后是否会改变对象的状态(静态方法无法访问非静态字段)。
 
@@ -398,7 +398,7 @@ tv.getViewTreeObserver().addOnWindowFocusChangeListener(),add监听，放到集�
 	- final进行优化:`static final int intVal = 42; static final String strVal = "Hello, world!";`
 	- 这样，定义类就不需要方法了，因为所有的常量都会在dex文件的初始化器当中进行初始化。当我们调用intVal时可以直接指向42的值，而调用strVal会用一种相对轻量级的字符串常量方式，而不是字段搜寻的方式。
 	- 这种优化方式只对基本数据类型以及String类型的常量有效，对于其他数据类型的常量是无效的。
-<br>
+
 - 在没有特殊原因的情况下，尽量使用基本数据类型来代替封装数据类型，int比Integer要更加有效，其它数据类型也是一样。
 	- 基本数据类型的数组也要优于对象数据类型的数组。另外两个平行的数组要比一个封装好的对象数组更加高效，举个例子，Foo[]和Bar[]这样的数组，使用起来要比Custom(Foo,Bar)[]这样的一个数组高效的多。
 <br>
@@ -464,12 +464,12 @@ protected void onRestoreInstanceState(Parcelable state) {
 <a name="5.2" style="text-decoration:none"><strong><font color=#222222 size=4 face="微软雅黑">5.2 获取网络数据优化</font></strong></a>
 
 - 移动端获取网络数据优化的几个点。
-<br>
+
 - 连接复用：节省连接建立时间，如开启 keep-alive。
 	- 对于Android来说默认情况下HttpURLConnection和HttpClient都开启了keep-alive。只是2.2之前HttpURLConnection存在影响连接池的Bug，具体可见：Android HttpURLConnection及HttpClient选择
-<br>
+
 - 请求合并：即将多个请求合并为一个进行请求，比较常见的就是网页中的CSS Image Sprites。如果某个页面内请求过多，也可以考虑做一定的请求合并。
-<br>
+
 - 减少请求数据的大小：对于post请求，body可以做gzip压缩的，header也可以做数据压缩(不过只支持http）
 	- 返回数据的body也可以做gzip压缩，body数据体积可以缩小到原来的30%左右。（也可以考虑压缩返回的json数据的key数据的体积，尤其是针对返回数据格式变化不大的情况，支付宝聊天返回的数据用到了）
 <br>
@@ -497,13 +497,13 @@ public void onError(Throwable e) {
 	- 直接创建Thread实现runnable方法的弊端
 		- 大量的线程的创建和销毁很容易导致GC频繁的执行，从而发生内存抖动现象，而发生了内存抖动，对于移动端来说，最大的影响就是造成界面卡顿。
 		- 线程的创建和销毁都需要时间，当有大量的线程创建和销毁时，那么这些时间的消耗则比较明显，将导致性能上的缺失。
-<br>
+
 	- 为什么要用线程池？
 		- 重用线程池中的线程，避免频繁地创建和销毁线程带来的性能消耗；有效控制线程的最大并发数量，防止线程过大导致抢占资源造成系统阻塞；可以对线程进行一定地管理。
-<br>
+
 	- 使用线程池管理的经典例子
 		- RxJava，RxAndroid，底层对线程池的封装管理特别值得参考
-<br>
+
 	- 关于线程池，线程，多线程的具体内容
 		- 参考：[轻量级线程池封装库，支持异步回调，可以检测线程执行的状态](https://github.com/yangchong211/YCThreadPool)。
 		- 该项目中哪里用到频繁new Thread()？
@@ -518,12 +518,12 @@ public void onError(Throwable e) {
 - 加载图片所占的内存大小计算方式
 	- 加载网络图片：bitmap内存大小 = 图片长度 x 图片宽度 x 单位像素占用的字节数【看到网上很多都是这样写的，但是不全面】。
 	- 加载本地图片：bitmap内存大小 = width * height * nTargetDensity/inDensity 一个像素所占的内存。注意不要忽略了一个影响项：Density。
-<br>
+
 - 第一种加载图片优化处理：压缩图片
 	- **质量压缩方法**：在保持像素的前提下改变图片的位深及透明度等，来达到压缩图片的目的，这样适合去传递二进制的图片数据，比如分享图片，要传入二进制数据过去，限制500kb之内。
 	- **采样率压缩方法**：设置inSampleSize的值(int类型)后，假如设为n，则宽和高都为原来的1/n，宽高都减少，内存降低。
 	- **缩放法压缩**：Android中使用Matrix对图像进行缩放、旋转、平移、斜切等变换的。功能十分强大！
-<br>
+
 - 第二种加载图片优化：不压缩加载高清图片如何做？
 	- 使用BitmapRegionDecoder，主要用于显示图片的某一块矩形区域，如果你需要显示某个图片的指定区域，那么这个类非常合适。
 <br>
@@ -563,7 +563,7 @@ recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
 
 - 启动时间分析
 	- 系统创建进程的时间和应用进程启动的时间，前者是由系统自行完成的，一般都会很快，我们也干预不了，我觉得能做的就是去优化应用进程启动，具体说来就是从发Application的onCreate()执行开始到MainActivity的onCreate()执行结束这一段时间。
-<br>
+
 - 启动时间优化
 	- Application的onCreate()方法
 	- MainActivity的onCreate()方法
@@ -572,17 +572,17 @@ recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
 		- 延迟初始化
 		- 后台任务
 		- 启动界面预加载
-<br>
+
 - 启动页白屏优化
 	- 为什么存在这个问题？
 		- 当系统启动一个APP时，zygote进程会首先创建一个新的进程去运行这个APP，但是进程的创建是需要时间的，在创建完成之前，界面是呈现假死状态，于是系统根据你的manifest文件设置的主题颜色的不同来展示一个白屏或者黑屏。而这个黑（白）屏正式的称呼应该是Preview Window，即预览窗口。
 		- 实际上就是是activity默认的主题中的android:windowBackground为白色或者黑色导致的。
 		- 总结来说启动顺序就是：app启动——Preview Window(也称为预览窗口)——启动页。
-<br>
+
 	- 解决办法：
 		- 常见有三种，这里解决办法是给当前启动页添加一个有背景的style样式，然后SplashActivity引用当前theme主题，注意在该页面将window的背景图设置为空！
 		- 更多关于启动页为什么白屏闪屏，以及不同解决办法，可以看这篇博客：[优化App冷启动,实现启动页错觉秒开](https://www.jianshu.com/p/dddbfc9a312c)
-<br>
+
 - 启动时间优化
 	- IntentService子线程分担部分初始化工作。
 		- 现在application初始化内容有：阿里云推送初始化，腾讯bugly初始化，im初始化，神策初始化，内存泄漏工具初始化，头条适配方案初始化，阿里云热修复……等等。将部分逻辑放到IntentService中处理，可以缩短很多时间。
@@ -659,7 +659,7 @@ recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
 
 - 可以优化什么？
 	- 在 onTrimMemory() 回调中，应该在一些状态下清理掉不重要的内存资源。对于这些缓存，只要是读进内存内的都算，例如最常见的图片缓存、文件缓存等。拿图片缓存来说，市场上，常规的图片加载库，一般而言都是三级缓存，所以在内存吃紧的时候，我们就应该优先清理掉这部分图片缓存，毕竟图片是吃内存大户，而且再次回来的时候，虽然内存中的资源被回收掉了，依然可以从磁盘或者网络上恢复它。
-<br>
+
 - 大概的思路如下所示
 	- 在lowMemory的时候，调用Glide.cleanMemory()清理掉所有的内存缓存。
 	- 在App被置换到后台的时候，调用Glide.cleanMemory()清理掉所有的内存缓存。
@@ -670,7 +670,7 @@ recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
 
 - 什么叫轮询请求？
 	- 简单理解就是App端每隔一定的时间重复请求的操作就叫做轮询请求，比如：App端每隔一段时间上报一次定位信息，App端每隔一段时间拉去一次用户状态等，这些应该都是轮训请求。比如，电商类项目，某个抽奖活动页面，隔1分钟调用一次接口，弹出一些获奖人信息，你应该某个阶段看过这类轮询操作！
-<br>
+
 - 具体优化操作
 	- 长连接并不是稳定的可靠的，而执行轮训操作的时候一般都是要稳定的网络请求，而且轮训操作一般都是有生命周期的，即在一定的生命周期内执行轮训操作，而长连接一般都是整个进程生命周期的，所以从这方面讲也不太适合。
 	- 建议在service中做轮询操作，轮询请求接口，具体做法和注意要点，可以直接看该项目代码。看app包下的LoopRequestService类即可。
@@ -682,7 +682,7 @@ recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
 - 我相信你看到了这里会有疑问，网上有许多博客作了这方面说明。但是我在这里想说，如何查找自己项目的所有依赖关系树。
 	- 注意要点：其中app就是项目mudule名字。 正常情况下就是app！
 	`gradlew app:dependencies`
-<br>
+
 - 关于依赖关系树的结构图如下所示，此处省略很多代码
 	```gradle
 	|    |    |    |    |    |    \--- android.arch.core:common:1.1.1 (*)
@@ -702,7 +702,7 @@ recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
 - 然后查看哪些重复jar
 
 	<img src="https://user-gold-cdn.xitu.io/2019/6/17/16b640ac138ab54c?imageView2/0/w/1280/h/960/ignore-error/1" width="800px" height="338px">
-<br>
+
 
 - 然后修改gradle配置代码
 	```gradle
@@ -729,7 +729,7 @@ recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
 		- 通过软引用的get()方法，取得bitmap对象实例的强引用，发现对象被未回收。在GC在内存充足的情况下，不会回收软引用对象。此时view的背景显示
 		- 实际情况中,我们会获取很多图片.然后可能给很多个view展示, 这种情况下很容易内存吃紧导致oom,内存吃紧，系统开始会GC。这次GC后，bitmapSoftReference.get()不再返回bitmap对象，而是返回null，这时屏幕上背景图不显示，说明在系统内存紧张的情况下，软引用被回收。
 		- 使用软引用以后，在OutOfMemory异常发生之前，这些缓存的图片资源的内存空间可以被释放掉的，从而避免内存达到上限，避免Crash发生。
-<br>
+
 - 弱引用使用场景
 	- 弱引用–>随时可能会被垃圾回收器回收，不一定要等到虚拟机内存不足时才强制回收。
 	- 对于使用频次少的对象，希望尽快回收，使用弱引用可以保证内存被虚拟机回收。比如handler，如果希望使用完后尽快回收，看下面代码:
@@ -759,7 +759,7 @@ recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
 - 一般实际开发中会至少有两种loading。
 	- 第一种是从A页面进入B页面时的加载loading，这个时候特点是显示loading的时候，页面是纯白色的，加载完数据后才显示内容页面。
 	- 第二种是在某个页面操作某种逻辑，比如某些耗时操作，这个时候是局部loading【一般用个帧动画或者补间动画】，由于使用频繁，因为建议在销毁弹窗时，添加销毁动画的操作。
-<br>
+
 - 自定义loading加载：
 	- <a target="_blank" href="https://link.juejin.im?target=https%3A%2F%2Fgithub.com%2Fyangchong211%2FYCDialog" rel="nofollow noopener noreferrer">github.com/yangchong21…</a>
 <br>
@@ -779,14 +779,14 @@ recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
 - RecyclerView滑动卡顿的原因有哪些？
 	- 第一种：嵌套布局滑动冲突。
 		- 导致嵌套滑动难处理的关键原因在于当子控件消费了事件, 那么父控件就不会再有机会处理这个事件了, 所以一旦内部的滑动控件消费了滑动操作, 外部的滑动控件就再也没机会响应这个滑动操作了。
-<br>
+
 	- 第二种：嵌套布局层次太深，比如六七层等。
 		- 测量，绘制布局可能会导致滑动卡顿。
-<br>
+
 	- 第三种：比如用RecyclerView实现画廊，加载比较大的图片，如果快速滑动，则可能会出现卡顿，主要是加载图片需要时间。
-<br>
+
 	- 第四种：在onCreateViewHolder或者在onBindViewHolder中做了耗时的操作导致卡顿。按stackoverflow上面比较通俗的解释：RecyclerView.Adapter里面的onCreateViewHolder()方法和onBindViewHolder()方法对时间都非常敏感。类似I/O读写，Bitmap解码一类的耗时操作，最好不要在它们里面进行。
-<br>
+
 - 关于RecyclerView封装库
 	- <a target="_blank" href="https://link.juejin.im?target=https%3A%2F%2Fgithub.com%2Fyangchong211%2FYCRefreshView" rel="nofollow noopener noreferrer">github.com/yangchong21…</a>
 <br>
