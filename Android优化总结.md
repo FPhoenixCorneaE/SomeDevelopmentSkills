@@ -146,7 +146,7 @@
 	- 主线程：只有应用程序进程的主线程响应超时才会产生ANR；
 	- 超时时间：产生ANR的上下文不同，超时时间也会不同，但只要在这个时间上限内没有响应就会ANR；
 	- 输入事件/特定操作：输入事件是指按键、触屏等设备输入事件，特定操作是指BroadcastReceiver和Service的生命周期中的各个函数，产生ANR的上下文不同，导致ANR的原因也会不同；
-<br>
+
 - ANR优化具体措施:
 
 	- 将所有耗时操作，比如访问网络，Socket通信，查询大量SQL 语句，复杂逻辑计算等都放在子线程中去，然后通过handler.sendMessage、runonUIThread、AsyncTask 等方式更新UI。无论如何都要确保用户界面作的流畅度。如果耗时操作需要让用户等待，那么可以在界面上显示度条。
@@ -806,5 +806,6 @@ recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
 - 11.adapter优化
 - 12.具体看这篇博客：[recyclerView优化](https://github.com/yangchong211/YCBlogs/blob/master/android/recyclerView/21.RecyclerView%E4%BC%98%E5%8C%96%E5%A4%84%E7%90%86.md)
 <br><br>
+
 
 转载自<https://juejin.im/post/5d072dbc51882540b7104709#heading-4>
