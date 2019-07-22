@@ -1,15 +1,16 @@
-#### **目录介绍**
+### **目录介绍**
 
 <a href="#1" style="background-color:grey;display: inline;width:100%;height:100%;border-radius:8px;padding:5px;color:#ffa500;font-size: 25px;font-family:正楷;font-weight:bold;text-decoration:none;">1.OOM和崩溃优化</a>
-
+<br>
 <a href="#1.1" style="text-decoration:none"><strong><font color=#222222 size=4 face="微软雅黑">1.1 OOM优化</font></strong></a>
-
+<br>
 <a href="#1.2" style="text-decoration:none"><strong><font color=#222222 size=4 face="微软雅黑">1.2 ANR优化</font></strong></a>
-
+<br>
 <a href="#1.3" style="text-decoration:none"><strong><font color=#222222 size=4 face="微软雅黑">1.3 Crash优化</font></strong></a>
+<br><br>
 
 <a href="#2" style="background-color:grey;display: inline;width:100%;height:100%;border-radius:8px;padding:5px;color:#ffa500;font-size: 25px;font-family:正楷;font-weight:bold;text-decoration:none;">2.内存泄漏优化</a>
-
+<br>
 <a href="#2.1" style="text-decoration:none"><strong><font color=#222222 size=4 face="微软雅黑">2.1 动画资源未释放</font></strong></a>
 <br>
 <a href="#2.2" style="text-decoration:none"><strong><font color=#222222 size=4 face="微软雅黑">2.2 错误使用单利</font></strong></a>
@@ -31,10 +32,8 @@
 <a href="#2.10" style="text-decoration:none"><strong><font color=#222222 size=4 face="微软雅黑">2.10 其他原因</font></strong></a>
 <br><br>
 
-<div style="background-color:grey;display: inline;width:100%;height:100%;border-radius:8px;padding:5px;color:orange;font-size: 20px;font-family:宋体;">
-<a href="#3" style="text-decoration:none"><font color=#ffa500 size=5 face="正楷">3.布局优化</font></a>
-</div>
-<br><br>
+<a href="#3" style="background-color:grey;display: inline;width:100%;height:100%;border-radius:8px;padding:5px;color:#ffa500;font-size: 25px;font-family:正楷;font-weight:bold;text-decoration:none;">3.布局优化</a>
+<br>
 <a href="#3.1" style="text-decoration:none"><strong><font color=#222222 size=4 face="微软雅黑">3.1 include重用布局文件</font></strong></a>
 <br>
 <a href="#3.2" style="text-decoration:none"><strong><font color=#222222 size=4 face="微软雅黑">3.2 ViewStub需要时加载</font></strong></a>
@@ -44,10 +43,8 @@
 <a href="#3.4" style="text-decoration:none"><strong><font color=#222222 size=4 face="微软雅黑">3.4 其他建议</font></strong></a>
 <br><br>
 
-<div style="background-color:grey;display: inline;width:100%;height:100%;border-radius:8px;padding:5px;color:orange;font-size: 20px;font-family:宋体;">
-<a href="#4" style="text-decoration:none"><font color=#ffa500 size=5 face="正楷">4.代码优化</font></a>
-</div>
-<br><br>
+<a href="#4" style="background-color:grey;display: inline;width:100%;height:100%;border-radius:8px;padding:5px;color:#ffa500;font-size: 25px;font-family:正楷;font-weight:bold;text-decoration:none;">4.代码优化</a>
+<br>
 <a href="#4.1" style="text-decoration:none"><strong><font color=#222222 size=4 face="微软雅黑">4.1 lint代码检测</font></strong></a>
 <br>
 <a href="#4.2" style="text-decoration:none"><strong><font color=#222222 size=4 face="微软雅黑">4.2 代码规范优化</font></strong></a>
@@ -63,10 +60,8 @@
 <a href="#4.7" style="text-decoration:none"><strong><font color=#222222 size=4 face="微软雅黑">4.7 节制的使用Service</font></strong></a>
 <br><br>
 
-<div style="background-color:grey;display: inline;width:100%;height:100%;border-radius:8px;padding:5px;color:orange;font-size: 20px;font-family:宋体;">
-<a href="#5" style="text-decoration:none"><font color=#ffa500 size=5 face="正楷">5.网络优化</font></a>
-</div>
-<br><br>
+<a href="#5" style="background-color:grey;display: inline;width:100%;height:100%;border-radius:8px;padding:5px;color:#ffa500;font-size: 25px;font-family:正楷;font-weight:bold;text-decoration:none;">5.网络优化</a>
+<br>
 <a href="#5.1" style="text-decoration:none"><strong><font color=#222222 size=4 face="微软雅黑">5.1 图片分类</font></strong></a>
 <br>
 <a href="#5.2" style="text-decoration:none"><strong><font color=#222222 size=4 face="微软雅黑">5.2 获取网络数据优化</font></strong></a>
@@ -74,35 +69,27 @@
 <a href="#5.3" style="text-decoration:none"><strong><font color=#222222 size=4 face="微软雅黑">5.3 网络请求异常拦截优化</font></strong></a>
 <br><br>
 
-<div style="background-color:grey;display: inline;width:100%;height:100%;border-radius:8px;padding:5px;color:orange;font-size: 20px;font-family:宋体;">
-<a href="#6" style="text-decoration:none"><font color=#ffa500 size=5 face="正楷">6.线程优化</font></a>
-</div>
-<br><br>
+<a href="#6" style="background-color:grey;display: inline;width:100%;height:100%;border-radius:8px;padding:5px;color:#ffa500;font-size: 25px;font-family:正楷;font-weight:bold;text-decoration:none;">6.线程优化</a>
+<br>
 <a href="#6.1" style="text-decoration:none"><strong><font color=#222222 size=4 face="微软雅黑">6.1 使用线程池</font></strong></a>
 <br><br>
 
-<div style="background-color:grey;display: inline;width:100%;height:100%;border-radius:8px;padding:5px;color:orange;font-size: 20px;font-family:宋体;">
-<a href="#7" style="text-decoration:none"><font color=#ffa500 size=5 face="正楷">7.图片优化</font></a>
-</div>
-<br><br>
+<a href="#7" style="background-color:grey;display: inline;width:100%;height:100%;border-radius:8px;padding:5px;color:#ffa500;font-size: 25px;font-family:正楷;font-weight:bold;text-decoration:none;">7.图片优化</a>
+<br>
 <a href="#7.1" style="text-decoration:none"><strong><font color=#222222 size=4 face="微软雅黑">7.1 bitmap优化</font></strong></a>
 <br>
 <a href="#7.2" style="text-decoration:none"><strong><font color=#222222 size=4 face="微软雅黑">7.2 glide加载优化</font></strong></a>
 <br><br>
 
-<div style="background-color:grey;display: inline;width:100%;height:100%;border-radius:8px;padding:5px;color:orange;font-size: 20px;font-family:宋体;">
-<a href="#8" style="text-decoration:none"><font color=#ffa500 size=5 face="正楷">8.加载优化</font></a>
-</div>
-<br><br>
+<a href="#8" style="background-color:grey;display: inline;width:100%;height:100%;border-radius:8px;padding:5px;color:#ffa500;font-size: 25px;font-family:正楷;font-weight:bold;text-decoration:none;">8.加载优化</a>
+<br>
 <a href="#8.1" style="text-decoration:none"><strong><font color=#222222 size=4 face="微软雅黑">8.1 懒加载优化</font></strong></a>
 <br>
 <a href="#8.2" style="text-decoration:none"><strong><font color=#222222 size=4 face="微软雅黑">8.2 启动页优化</font></strong></a>
 <br><br>
 
-<div style="background-color:grey;display: inline;width:100%;height:100%;border-radius:8px;padding:5px;color:orange;font-size: 20px;font-family:宋体;">
-<a href="#9" style="text-decoration:none"><font color=#ffa500 size=5 face="正楷">9.其他优化</font></a>
-</div>
-<br><br>
+<a href="#9" style="background-color:grey;display: inline;width:100%;height:100%;border-radius:8px;padding:5px;color:#ffa500;font-size: 25px;font-family:正楷;font-weight:bold;text-decoration:none;">9.其他优化</a>
+<br>
 <a href="#9.1" style="text-decoration:none"><strong><font color=#222222 size=4 face="微软雅黑">9.1 静态变量优化</font></strong></a>
 <br>
 <a href="#9.2" style="text-decoration:none"><strong><font color=#222222 size=4 face="微软雅黑">9.2 注解替代枚举</font></strong></a>
@@ -122,10 +109,8 @@
 <a href="#9.9" style="text-decoration:none"><strong><font color=#222222 size=4 face="微软雅黑">9.9 对象池Pools优化</font></strong></a>
 <br><br>
 
-<div style="background-color:grey;display: inline;width:100%;height:100%;border-radius:8px;padding:5px;color:orange;font-size: 20px;font-family:宋体;">
-<a href="#10" style="text-decoration:none"><font color=#ffa500 size=5 face="正楷">10.RecyclerView优化</font></a>
-</div>
-<br><br>
+<a href="#10" style="background-color:grey;display: inline;width:100%;height:100%;border-radius:8px;padding:5px;color:#ffa500;font-size: 25px;font-family:正楷;font-weight:bold;text-decoration:none;">10.RecyclerView优化</a>
+<br>
 <a href="#10.1" style="text-decoration:none"><strong><font color=#222222 size=4 face="微软雅黑">10.1 页面为何卡顿</font></strong></a>
 <br>
 <a href="#10.2" style="text-decoration:none"><strong><font color=#222222 size=4 face="微软雅黑">10.2 具体优化方案</font></strong></a>
