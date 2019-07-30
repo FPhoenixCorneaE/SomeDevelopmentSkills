@@ -3,8 +3,8 @@
 
 ### 二、涉及知识点：Android的触摸事件
 #### `Android 的触摸事件分为两类，即，我们使用手机，每次点击屏幕的时候，都会触发这两种事件之一：`
-#### **1. MotionEvent.ACTION_DOWN - MotionEvent.ACTION_UP，按下手指 ，然后松开手指。**
-#### **2. MotionEvent.ACTION_DOWN - MotionEvent.ACTION_MOVE - MotionEvent.ACTION_UP，按下手指，移动，然后松开手指。**
+#### **1. MotionEvent.ACTION_DOWN --> MotionEvent.ACTION_UP，按下手指 ，然后松开手指。**
+#### **2. MotionEvent.ACTION_DOWN --> MotionEvent.ACTION_MOVE --> MotionEvent.ACTION_UP，按下手指，移动，然后松开手指。**
 
 #### `所谓的MotionEvent.ACTION_DOWN就是按下手指，MotionEvent.ACTION_MOVE就是移动手指，MotionEvent.ACTION_UP就是松开手指。`
 #### `Android中把触摸事件封装成了一个类MotionEvent，用户的一次点击、触摸或者滑动都会产生一系列的MotionEvent。这个类的内容很简单，就两个东西：事件类型+坐标xy。`
