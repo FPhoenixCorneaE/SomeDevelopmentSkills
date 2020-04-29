@@ -90,10 +90,11 @@
 
 1. 用途：按照图片名字生成一个selector的xml文件。
 
-2. 命名规则如下：
+2. 命名规则：
 
-	|   _normal  |  (默认状态)|   
+	|  File name suffix  |  Drawable state |   
 	| --- | --- | 
+	|  _normal  | (default state) |   
 	| _pressed|	state_pressed|
 	| _focused|	state_focused|
 	| _disabled|	state_enabled|
@@ -152,7 +153,7 @@
 
 <br>
 
-**十三、Android Parcelable code generator**
+**十三、Android Parcelable code generator/Parcelable Code Generator(for kotlin)**
 
 1. 一键生成Parcalable相关代码。
 
