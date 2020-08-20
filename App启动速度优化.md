@@ -12,7 +12,7 @@
 
  1. 埋点先行，有对比就有差距。
  App启动开始时间可以在Application的attachBaseContext方法开始计时。主页面展示的结束时间是在view的第一次调用onDraw()方法，作为主页面的展示时机。
-```		
+```java		
 getWindow().getDecorView().getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
 	@Override
 	public boolean onPreDraw() {
@@ -66,22 +66,27 @@ getWindow().getDecorView().getViewTreeObserver().addOnPreDrawListener(new ViewTr
 使用Activity的windowBackground主题属性来为启动的Activity提供一个简单的drawable。
 		
 drawable布局文件layerlist_splash：
-```
+```xml
 <?xml version="1.0" encoding="utf-8"?>
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android"
 			android:opacity="translucent">
+	<item android:drawable="@android:color/white" />
 	<item>
-		<bitmap android:src="@mipmap/pic_splash" />
+		<bitmap 
+			android:gravity="center"
+            android:scaleType="centerCrop"
+			android:src="@mipmap/pic_splash"
+			android:tileMode="disabled" />
 	</item>
 </layer-list>
 ```			
 Manifest file:
-```
+```xml
 <activity ...
 	android:theme="@style/SplashTheme" />
 ```			
 style theme文件SplashTheme：
-```	
+```xml
 <!--启动页主题-->
 <style name="SplashTheme" parent="Theme.AppCompat">
 	<item name="windowActionBar">false</item>
@@ -99,7 +104,7 @@ style theme文件SplashTheme：
 
 由于Android 5.0以下使用的Dalvik虚拟机天生对MultiDex支持不好，导致在4.4（及以下）的系统上，如果使用了 	MultiDex做为分包方案，启动速度可能会慢的多，实际数值跟dex文件的大小、数量有关，估计会慢300~500ms。
         
-<h4> **解决方案：**
+<h7> **解决方案：**
         
   - 限制APP在5.0以上使用：目前大多数用户已经在使用Android 5.0以上的版本了，当然，还有很多4.4用					户，很多APP也是只支持4.4以上（比如：百度APP），为了用户体验，可以考虑舍弃一部分用户
 
@@ -111,7 +116,7 @@ style theme文件SplashTheme：
 
 - Dex懒加载：在APP功能日益复杂的今天，MultiDex几乎是已经无法避免了，为了启动速度的优化，可以将启动时必需的方法，放在主Dex中（即classes.dex），方法是在Gradle脚本中配置multiDexKeepFile或multiDexKeepProguard属性（代码如下），详见：官方文档，待App启动完成后，再使用MultiDex.install来加载其他的Dex文件。这种方法风险比较高，而且实现成本比较大，如果启动依赖的库比较多，还是无法实现。
 
-```
+```groovy
 android { 
 	buildTypes { 
 		release { 
@@ -131,10 +136,10 @@ Glide是一个很好用的图片加载框架，除了常用的图片加载、缓
 
 Glide初始化耗时分析：Glide的初始化会加载所有配置的Module，然后初始化RequestManager（包括网络层、工作线程等，比较耗时），最后还要应用一些解码的选项（Options）。
 
-<h4> **解决方案：**
+<h7> **解决方案：**
 在Application的onCreate方法中，在工作线程调用一次GlideApp.get(this)。
 
-```
+```java
 @Override
 public void onCreate() {
     super.onCreate();
@@ -153,13 +158,13 @@ public void onCreate() {
 
 greenDAO实现了一种ORM框架，数据库基于SQLite，使用起来很方便，不需要自己写SQL语句、控制并发和事务等等，其他常见的数据库框架如：Realm、DBFlow等等，使用起来也很方便，但他们的初始化，尤其是需要升级、迁移数据时，往往会带来不小的CPU和I/O开销，一旦数据量比较多（比如：很长时间的聊天记录、浏览器浏览历史记录等），往往都需要专门一个界面来告知用户：APP正在做数据处理工作。所以，如果为了提高APP启动速度，避免在APP启动时做数据库的耗时任务，很有必要！
 
-<h4> **解决方案：**
+<h7> **解决方案：**
 
 - 必要数据避免使用数据库：如果首屏的展示内容需要根据配置来决定，那么干脆放弃数据库存储和读取，直接放在文件、SharedPreference里面，特别是多组键值对的读取，如果使用数据库，在除过初始化占用的时间以后，可能还需要30~50ms来完成（因为需要多次读取），而如果存在SharedPreference中，即使是转换成JSON并解析，可能也就在10ms之内
 
 - 数据库预先异步初始化：使用greenDAO时，预先初始化很有必要，可以保证在第一次读取数据库时，不占用主线程资源，防止拖慢启动速度，具体做法如下：
 
-```
+```java
 // Application
 override fun onCreate() { 
 	super.onCreate() 
@@ -194,3 +199,4 @@ object DbManager {
 	
 	
 	
+
