@@ -1,0 +1,55 @@
+### 如何在RecyclerView列表滑动的过程中暂停图片加载，使我们的列表在滑动过程中不卡顿，以达到性能优化的目的？
+
+需要对 RecyclerView 添加滑动监听：
+
+
+```java
+	mRecyclerView.addOnScrollListener(mOnScrollListener = new RecyclerView.OnScrollListener() {
+
+        @Override
+        public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+            super.onScrollStateChanged(recyclerView, newState);
+			// Glide 加载图片
+            switch (newState) {
+                case RecyclerView.SCROLL_STATE_IDLE:// 空闲状态
+                    Glide.with(mContext).resumeRequests();
+                    break;
+                case RecyclerView.SCROLL_STATE_DRAGGING:// 拖拽状态
+                case RecyclerView.SCROLL_STATE_SETTLING:// 滚动状态
+                    Glide.with(mContext).pauseRequests();
+                    break;
+            }
+			
+			// Fresco 加载图片
+            switch (newState) {
+                case RecyclerView.SCROLL_STATE_IDLE:// 空闲状态
+                    Fresco.getImagePipeline().resume();
+                    break;
+                case RecyclerView.SCROLL_STATE_DRAGGING:// 拖拽状态
+                case RecyclerView.SCROLL_STATE_SETTLING:// 滚动状态
+                    Fresco.getImagePipeline().pause();
+                    break;
+            }
+			
+			// Picasso 加载图片
+			// 值得注意的是：在 Picasso 框架中，加载图片时要指定是哪一个 ImageView 需要在滑动过程中暂停加载，所以我们需要加一个 tag
+			// Picasso.with(mContext).load(url).tag(tag).into(imageView);
+
+            switch (newState) {
+                case RecyclerView.SCROLL_STATE_IDLE:// 空闲状态
+                    Picasso.with(mContext).resumeTag(tag);
+                    break;
+                case RecyclerView.SCROLL_STATE_DRAGGING:// 拖拽状态
+                case RecyclerView.SCROLL_STATE_SETTLING:// 滚动状态
+                    Picasso.with(mContext).pauseTag(tag);
+                    break;
+            }
+			
+        }
+
+        @Override
+        public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+            super.onScrolled(recyclerView, dx, dy);
+        }
+    });
+```

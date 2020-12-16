@@ -1,6 +1,0 @@
-在设置背景图是，如果图片不够大会被拉伸，使图片失真，如果图片太大会对View控件的显示造成影响。
-
-如果只是在ImageView中设置图片的话，在程序中可以利用setScaleType进行动态设定，在xml中可以简单的用android：scaleType来设定（android：scaleType="center_inside"图片比View小，图片不会拉伸，"center_crop"图片比View大，View不会被拉伸，其他属性设置以后慢慢研究。）
-
-现在要做的是设置Layout的background是如何让图片自适应屏幕的大小，包含屏幕旋转时的调整，参考DrawableUtils工具类。
-
