@@ -12,6 +12,7 @@
 ##### 1.Android Studio
 
 Android Studio 2.3起可以直接将JPEG/PNG格式转换成WebP格式，具体方法可参考官方指引: 
+</br>
 [Convert Images to WebP](https://developer.android.com/studio/write/convert-webp)
 
 注意：9-patch 文件无法转换为 WebP 图片。转换器工具总是会自动跳过 9-patch 图片。
@@ -23,6 +24,7 @@ Android Studio 2.3起可以直接将JPEG/PNG格式转换成WebP格式，具体�
 ##### 3.官方相互转换工具
 
 WebP download page：https://storage.googleapis.com/downloads.webmproject.org/releases/webp/index.html
+</br>
 可参考：https://blog.csdn.net/lmj623565791/article/details/53240600
 
 ### 三、优点
@@ -34,6 +36,7 @@ WebP download page：https://storage.googleapis.com/downloads.webmproject.org/re
 ##### 2.兼容性
 
 1）无论网络图片、本地图片、透明背景图片还是Gif图片，从图片质量来看，WebP格式图片并没有因为更高的压缩率而出现损耗。
+</br>
 2）根据Android Profiler的Memory情况来看，WebP格式图片和JPEG/PNG格式图片二者总体差距不明显。
 
 ##### 3.WebP支持24位RGB和8位透明通道，GIF仅支持8位色彩及1位透明度。
@@ -53,6 +56,7 @@ Android 4.3以下的设备，使用Glide加载是不支持WebP格式图片的。
 ##### 2.动图
 
 目前Android本身没有提供WebP动图支持，不过Fresco已经支持了。可将直接GIF格式动图直接转换成WebP格式：
+</br>
 [GIF to WebP converter](https://ezgif.com/gif-to-webp)
 
 ##### 3.WebView
@@ -70,4 +74,5 @@ WebP格式在Android平台上应用，优势主要是它能以更小的体积展
 3. ##### 使用so库：
 
   webp-android-backport：https://github.com/alexey-pelykh/webp-android-backport
+  </br>
   webp-android：https://github.com/EverythingMe/webp-android
