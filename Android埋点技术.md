@@ -715,7 +715,7 @@ App全埋点这种方式产生的数据太多，无论是对用户资源的节�
    event_bindings: {
        events:[
            {
-               target_activity: ""
+               target_activity: "",
                event_name: "",
                event_type: "",
                path: [
