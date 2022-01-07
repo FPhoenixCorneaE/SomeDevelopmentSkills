@@ -721,11 +721,11 @@ App全埋点这种方式产生的数据太多，无论是对用户资源的节�
                ...
                path: [
                    {
-                       prefix:
-                       view_class:
-                       index:
-                       id:
-                       sa_id_name:
+                       prefix: "",
+                       view_class: "",
+                       index: 1,
+                       id: 2122345624,
+                       sa_id_name: ""
                    }, 
                    {
                        ...
