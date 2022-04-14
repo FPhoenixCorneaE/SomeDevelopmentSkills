@@ -12,9 +12,6 @@
 |       [VirtualAPK](https://github.com/didi/VirtualAPK)       | 2017年06月 |       滴滴       |    apk被宿主加载后，在宿主中创建单独的 LoadedPlugin 对象     | 1、支持四大组件。2、无需手动注册组件。3、支持访问宿主应用程序类和资源。4、支持Pending Intent。 |                                                              |
 |       [RePlugin](https://github.com/Qihoo360/RePlugin)       | 2017年07月 |   360手机卫士    |                       占坑类插件化方案                       | 1、支持大部分特性。2、稳定，崩溃率低至万分之一。3、充分利用原生特性。 |                 1、组件需要在Manifest占坑。                  |
 |         [Shadow](https://github.com/Tencent/Shadow)          |   2019年   |       腾讯       |                 零反射全动态Android插件框架                  | 1、零反射。2、框架自身动态化。3、宿主增量极小。4、Kotlin实现。5、支持四大组件、Fragment、databinding、跨进程使用插件Service、自定义Theme、插件访问宿主类、So加载、分段加载插件（多Apk分别加载或多Apk以此依赖加载）、一个Activity中加载多个Apk中的View...... |                                                              |
-|                                                              |            |                  |                                                              |                                                              |                                                              |
-|                                                              |            |                  |                                                              |                                                              |                                                              |
-|                                                              |            |                  |                                                              |                                                              |                                                              |
 
 
 
