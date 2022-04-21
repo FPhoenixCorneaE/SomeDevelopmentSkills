@@ -52,10 +52,10 @@
 
 ### 二、打渠道包
 
-1. ##### Android Studio Gralde 视图框中，找到app->build->assemble，双击 ，可以打所有渠道apk包（包括debug和release）。
+1. ##### Android Studio Gralde 视图框中，找到 app --> build --> assemble，双击 ，可以打所有渠道 apk 包(包括 debug 和 release)。
 
-<img src="D:\workspace\github\SomeDevelopmentSkills\预览图\Android多渠道打包-1.png" alt="image-20220421112702233"  />
+<img src="https://github.com/FPhoenixCorneaE/SomeDevelopmentSkills/blob/master/%E9%A2%84%E8%A7%88%E5%9B%BE/Android%E5%A4%9A%E6%B8%A0%E9%81%93%E6%89%93%E5%8C%85-1.png" alt="Android多渠道打包-1"  />
 
-2. ##### 打包结果
+2. ##### 打包结果如下图：
 
-![image-20220421113500590](D:\workspace\github\SomeDevelopmentSkills\预览图\Android多渠道打包-2.png)
+![Android多渠道打包-2](https://github.com/FPhoenixCorneaE/SomeDevelopmentSkills/blob/master/%E9%A2%84%E8%A7%88%E5%9B%BE/Android%E5%A4%9A%E6%B8%A0%E9%81%93%E6%89%93%E5%8C%85-2.png)
