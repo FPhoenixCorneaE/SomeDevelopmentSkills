@@ -102,7 +102,7 @@ Log.appenderClose()
 
 因为没有进行加密，使用Mars项目中的**mars/log/crypt/decode_mars_nocrypt_log_file.py**进行解压缩。
 
-解压缩需要**Python2**的环境，可以使用 **Anaconda**,  进行多python环境的切换，Anaconda的使用就不在这里说明了，请自行查询。
+解压缩需要**Python2**的环境，可以使用 **Anaconda**,  进行多python环境的切换，[Anaconda介绍、安装及使用](https://zhuanlan.zhihu.com/p/32925500)就不在这里说明了，请自行查询。
 
 切换到Python2后 直接在**terminal**中执行命令
 
