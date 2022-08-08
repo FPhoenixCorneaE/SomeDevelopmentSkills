@@ -24,14 +24,15 @@ repositories {
         dirs "$rootDir/aar"
     }
 }
-```	
+```
 
 **2.** 将aar文件复制到library模块下的aar文件夹；
 		
 		
 **3.** 然后在library模块的build.gradle文件中还要正确引入：
 	
-- `在android节点下添加：`
+
+- 在android节点下添加：
 
 	```		
 	repositories {
@@ -39,20 +40,26 @@ repositories {
 			dirs 'aar'
 		}
 	}
-	```		
-- `dependencies节点：`
+	```
+- dependencies节点：
 	
 	```
 	dependencies {
 		implementation fileTree(include: ['*.jar'], dir: 'libs')
 		implementation(name: 'aar名字', ext: 'aar')
 	}
-	```		
-		
+	```
+	
+
+
+
+
+
 <font size="3" color="#ee1234" face="宋体">**有一个需要特别注意的地方：</font>
 	
+
 - 引用aar的library模块需要在build.gradle文件添加依赖原aar模块依赖的所有库；
-		
+	
 - 引用的aar本身有依赖其他aar，需要复制其他aar文件到library模块的aar文件夹下；
 		
 		
